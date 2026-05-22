@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Program Message Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0a0a0c; /* Slightly deeper, more neutral dark background */
+        --surface: rgba(22, 22, 26, 0.7); /* Improved surface contrast */
+        --border: rgba(255, 255, 255, 0.08); /* More subtle, light-based border */
+        --border-rgb: 255, 255, 255;
+        --text: #e2e2e9;
+        --text-rgb: 226, 226, 233;
+        --muted: #8a8a93; /* Slightly more muted for better hierarchy */
+        --accent: #c5a367; /* More sophisticated "champagne" gold */
+        --accent-glow: rgba(197, 163, 103, 0.2);
+        --navy-deep: #111827; /* Deeper, more "professional" navy */
+        --danger: #ff6b6b;
+        --danger-rgb: 255, 107, 107;
+        --radius-md: 14px; /* Slightly tighter radius for a more professional feel */
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05); /* Layered shadow */
+        --transition-speed: 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother bezier curve */
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+        height: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--bg);
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #27272a;
+        border-radius: 20px;
+        border: 3px solid var(--bg);
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #3f3f46;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'DM Sans', system-ui, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background-image: radial-gradient(circle at 50% -20%, #1a1a2e 0%, var(--bg) 100%); /* Subtle depth */
+      }
+
+      .wrap {
+        max-width: 660px;
+        margin: 0 auto;
+        padding: 5rem 1.5rem 8rem; /* More generous vertical spacing */
+      }
+
+      h1, h2 {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        letter-spacing: -0.03em;
+        color: #fff;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin: 0 0 3rem;
+        text-align: center;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        padding: 2.5rem;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: var(--shadow-lg);
+      }
+
+      label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em; /* Increased letter spacing for labels */
+      }
+
+      select,
+      input[type='url'],
+      textarea {
+        width: 100%;
+        font: inherit;
+        color: var(--text);
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.85rem 1rem;
+        outline: none;
+        transition: all var(--transition-speed);
+      }
+
+      /* Custom Select Styling */
+      .custom-select {
+        position: relative;
+        width: 100%;
+        user-select: none;
+      }
+
+      .select-trigger {
+        width: 100%;
+        padding: 0.85rem 1rem;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all var(--transition-speed);
+      }
+
+      .select-trigger:after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid var(--muted);
+        border-bottom: 2px solid var(--muted);
+        transform: rotate(45deg) translateY(-2px);
+        transition: transform var(--transition-speed);
+        margin-right: 4px;
+      }
+
+      .custom-select.open .select-trigger {
+        border-color: rgba(var(--border-rgb), 0.3);
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+      }
+
+      .custom-select.open .select-trigger:after {
+        transform: rotate(-135deg) translateY(-2px);
+      }
+
+      .select-options {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        right: 0;
+        background: #16161a;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0.5rem;
+        z-index: 50;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all var(--transition-speed);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .custom-select.open .select-options {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
+      .select-option {
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.95rem;
+        color: var(--muted);
+      }
+
+      .select-option:hover {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+      }
+
+      .select-option.selected {
+        background: rgba(var(--accent-glow), 0.1);
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      select:focus,
+      input:focus,
+      textarea:focus {
+        border-color: rgba(var(--border-rgb), 0.3);
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+      }
+
+      .field {
+        margin-bottom: 1.75rem;
+      }
+
+      .field:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .section-group {
+        margin-bottom: 3rem;
+      }
+
+      .section-group:last-of-type {
+        margin-bottom: 0;
+      }
+
+      .section-group h2 {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin: 0 0 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .section-group h2::before {
+        content: '';
+        display: block;
+        width: 4px;
+        height: 1.15rem;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      textarea.preview,
+      textarea.output {
+        min-height: 180px;
+        resize: vertical;
+        font-size: 0.9rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid var(--border);
+        padding: 1.25rem;
+        border-radius: 10px;
+        color: var(--text);
+      }
+
+      .actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+        padding: 1.5rem 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      button {
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        padding: 0.85rem 1.75rem;
+        transition: all var(--transition-speed);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      button.primary {
+        background: var(--accent);
+        color: #000;
+        box-shadow: 0 4px 12px rgba(197, 163, 103, 0.2);
+      }
+
+      button.primary:hover:not(:disabled) {
+        background: #d4b47a;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(197, 163, 103, 0.3);
+      }
+
+      button.secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      button.secondary:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      button:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        filter: grayscale(1);
+      }
+
+      .output-section {
+        margin-top: 2.5rem;
+      }
+
+      .meta {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 1.25rem;
+        padding: 1.25rem;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        display: none;
+        line-height: 1.6;
+      }
+
+      .meta.visible {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 0.6rem 1.25rem;
+      }
+
+      .meta strong {
+        color: var(--accent);
+        font-weight: 700;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      .error {
+        margin-top: 1.5rem;
+        padding: 1rem 1.25rem;
+        border-radius: 8px;
+        background: rgba(255, 107, 107, 0.1);
+        border: 1px solid rgba(255, 107, 107, 0.2);
+        color: var(--danger);
+        font-size: 0.9rem;
+        font-weight: 500;
+        display: none;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .error::before {
+        content: '⚠';
+        font-size: 1.1rem;
+      }
+
+      .error.visible {
+        display: flex;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        padding: 0.85rem 1.5rem;
+        background: #18181b;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #fff;
+        opacity: 0;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 100;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      }
+
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Program Message Generator</h1>
+      <div class="card">
+        <section class="section-group">
+          <h2>Program Selection</h2>
+          <div class="field">
+            <label for="programType">Program type</label>
+            <div class="custom-select" id="programTypeWrapper">
+              <div class="select-trigger" id="selectTrigger">
+                <span id="selectValue">Select Program Type</span>
+              </div>
+              <div class="select-options" id="selectOptions">
+                <!-- Options will be injected here -->
+              </div>
+            </div>
+            <input type="hidden" id="programType" value="">
+          </div>
+          <div class="field">
+            <label for="programUrl">Program URL</label>
+            <input
+              id="programUrl"
+              type="url"
+              autocomplete="url"
+              placeholder="https://isha.co/IE-Hadapsar"
+            />
+          </div>
+        </section>
+
+        <section class="section-group">
+          <h2>Template Preview</h2>
+          <div class="field">
+            <label for="templatePreview">Template preview</label>
+            <textarea
+              id="templatePreview"
+              class="preview"
+              readonly
+              spellcheck="false"
+              aria-label="Template preview with placeholders"
+            ></textarea>
+          </div>
+        </section>
+
+        <div class="actions">
+          <button type="button" class="primary" id="generateBtn">
+            Generate message
+          </button>
+          <button type="button" class="secondary" id="copyBtn" disabled>
+            Copy message
+          </button>
+        </div>
+
+        <div class="error" id="errorBox" role="alert"></div>
+
+        <section class="section-group output-section">
+          <h2>Generated message</h2>
+          <textarea
+            id="output"
+            class="output"
+            readonly
+            spellcheck="false"
+            placeholder="Generated text will appear here…"
+          ></textarea>
+          <div class="meta" id="metaBox"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite">Copied to clipboard</div>
+
+    <script>
+      const programTypeEl = document.getElementById('programType');
+      const programTypeWrapper = document.getElementById('programTypeWrapper');
+      const selectTrigger = document.getElementById('selectTrigger');
+      const selectValue = document.getElementById('selectValue');
+      const selectOptions = document.getElementById('selectOptions');
+      const templatePreviewEl = document.getElementById('templatePreview');
+      const programUrlEl = document.getElementById('programUrl');
+      const generateBtn = document.getElementById('generateBtn');
+      const copyBtn = document.getElementById('copyBtn');
+      const outputEl = document.getElementById('output');
+      const errorBox = document.getElementById('errorBox');
+      const metaBox = document.getElementById('metaBox');
+      const toast = document.getElementById('toast');
+
+      /** @type {{ id: string, label: string, preview: string }[]} */
+      let types = [];
+
+      function showError(text) {
+        if (!text) {
+          errorBox.textContent = '';
+          errorBox.classList.remove('visible');
+          return;
+        }
+        errorBox.textContent = text;
+        errorBox.classList.add('visible');
+      }
+
+      function showToast() {
+        toast.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+
+      function syncPreview() {
+        const id = programTypeEl.value;
+        const t = types.find((x) => x.id === id);
+        templatePreviewEl.value = t ? t.preview : '';
+      }
+
+      // Dropdown Toggle
+      selectTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        programTypeWrapper.classList.toggle('open');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', () => {
+        programTypeWrapper.classList.remove('open');
+      });
+
+      function selectOption(id, label) {
+        programTypeEl.value = id;
+        selectValue.textContent = label;
+        programTypeWrapper.classList.remove('open');
+        
+        // Update selection UI
+        document.querySelectorAll('.select-option').forEach(opt => {
+          opt.classList.toggle('selected', opt.dataset.id === id);
+        });
+
+        syncPreview();
+      }
+
+      async function loadTypes() {
+        const res = await fetch('/api/program-types');
+        if (!res.ok) throw new Error('Could not load program types');
+        const data = await res.json();
+        types = data.types || [];
+        
+        selectOptions.innerHTML = 
+          `<div class="select-option" data-id="" onclick="selectOption('', 'Select Program Type')">Select Program Type</div>` +
+          types
+            .map(
+              (t) =>
+                `<div class="select-option" data-id="${escapeAttr(t.id)}" onclick="selectOption('${escapeAttr(t.id)}', '${escapeHtml(t.label)}')">${escapeHtml(t.label)}</div>`
+            )
+            .join('');
+        
+        syncPreview();
+      }
+
+      function escapeHtml(s) {
+        return String(s)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      function escapeAttr(s) {
+        return escapeHtml(s).replace(/'/g, '&#39;');
+      }
+
+      generateBtn.addEventListener('click', async () => {
+        showError('');
+        metaBox.classList.remove('visible');
+        metaBox.textContent = '';
+
+        const programType = programTypeEl.value;
+        const url = programUrlEl.value.trim();
+
+        if (!programType) {
+          showError('Please select a program type.');
+          return;
+        }
+        if (!url) {
+          showError('Please enter the program URL (Isha short link).');
+          return;
+        }
+
+        generateBtn.disabled = true;
+        copyBtn.disabled = true;
+        outputEl.value = '';
+
+        try {
+          const res = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ programType, url }),
+          });
+          const data = await res.json();
+
+          if (!res.ok) {
+            showError(data.error || 'Something went wrong.');
+            return;
+          }
+
+          outputEl.value = data.message || '';
+          copyBtn.disabled = !outputEl.value;
+
+          const ex = data.extracted;
+          if (ex) {
+            metaBox.innerHTML = [
+              ex.title ? `<div><strong>Title</strong> ${escapeHtml(ex.title)}</div>` : '',
+              `<div><strong>City</strong> ${escapeHtml(ex.city || '—')}</div>`,
+              `<div><strong>Language</strong> ${escapeHtml(ex.language || '—')}</div>`,
+              `<div><strong>Date</strong> ${escapeHtml(ex.date || '—')}</div>`,
+              ex.timing && programType === 'guru_pooja'
+                ? `<div><strong>Timing</strong> ${escapeHtml(ex.timing)}</div>`
+                : '',
+              `<div><strong>Phones</strong> ${escapeHtml((ex.phones || []).join(' / ') || '—')}</div>`,
+            ].join('');
+            metaBox.classList.add('visible');
+          }
+        } catch (e) {
+          showError(e.message || 'Network error.');
+        } finally {
+          generateBtn.disabled = false;
+        }
+      });
+
+      copyBtn.addEventListener('click', async () => {
+        const text = outputEl.value;
+        if (!text) return;
+        try {
+          await navigator.clipboard.writeText(text);
+          showToast();
+        } catch {
+          outputEl.select();
+          document.execCommand('copy');
+          showToast();
+        }
+      });
+
+      loadTypes().catch((e) => {
+        showError(e.message || 'Failed to load.');
+        templatePreviewEl.value =
+          'Could not load templates. Is the server running?';
+      });
+    </script>
+  </body>
+</html>
