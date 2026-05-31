@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "Internal tool for Isha Volunteers to generate formatted program invitation messages from Isha short links.",
+  "description": "A tool for Isha Volunteers to generate formatted program invitation messages from Isha short links.",
   "dependencies": {
     "clipboardy": "^5.3.1",
     "cors": "^2.8.6",

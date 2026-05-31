@@ -1,6 +1,6 @@
 # Isha Program Message Generator
 
-An internal tool for Isha Volunteers to generate formatted program invitation messages from Isha short links.
+A tool for Isha Volunteers to generate formatted program invitation messages from Isha short links.
 
 ## Features
 
