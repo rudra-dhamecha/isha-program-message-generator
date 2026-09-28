@@ -46,6 +46,7 @@ app.post('/api/generate', async (req, res) => {
       message,
       extracted: {
         city: normalized.city,
+        center: normalized.center,
         language: normalized.language,
         date: normalized.dateRaw,
         location: normalized.location,

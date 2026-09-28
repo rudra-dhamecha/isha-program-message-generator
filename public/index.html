@@ -595,6 +595,9 @@
             metaBox.innerHTML = [
               ex.title ? `<div><strong>Title</strong> ${escapeHtml(ex.title)}</div>` : '',
               `<div><strong>City</strong> ${escapeHtml(ex.city || '—')}</div>`,
+              ex.center && ex.center !== ex.city
+                ? `<div><strong>Center</strong> ${escapeHtml(ex.center)}</div>`
+                : '',
               `<div><strong>Language</strong> ${escapeHtml(ex.language || '—')}</div>`,
               `<div><strong>Date</strong> ${escapeHtml(ex.date || '—')}</div>`,
               ex.timing && programType === 'guru_pooja'
