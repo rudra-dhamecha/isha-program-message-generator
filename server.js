@@ -3,7 +3,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import {
   PROGRAM_TYPES,
+  extractShortLink,
   fetchProgramFromShortLink,
+  detectProgramType,
   renderMessage,
 } from './lib/program-service.js';
 
@@ -25,25 +27,30 @@ app.get('/api/program-types', (_req, res) => {
 });
 
 app.post('/api/generate', async (req, res) => {
-  const programType = req.body?.programType;
-  const url = req.body?.url?.trim();
+  let programType = req.body?.programType;
+  const rawUrl = req.body?.url?.trim();
 
-  if (!url) {
+  if (!rawUrl) {
     res.status(400).json({ error: 'Program URL is required.' });
     return;
   }
 
+  const url = extractShortLink(rawUrl) || rawUrl;
   const allowed = new Set(PROGRAM_TYPES.map((t) => t.id));
-  if (!programType || !allowed.has(programType)) {
-    res.status(400).json({ error: 'Invalid or missing program type.' });
-    return;
-  }
 
   try {
     const normalized = await fetchProgramFromShortLink(url);
+    if (!programType || programType === 'auto') {
+      programType = detectProgramType(normalized, url);
+    } else if (!allowed.has(programType)) {
+      res.status(400).json({ error: 'Invalid or missing program type.' });
+      return;
+    }
+
     const message = renderMessage(programType, normalized, url);
     res.json({
       message,
+      programType,
       extracted: {
         city: normalized.city,
         center: normalized.center,

@@ -408,12 +408,11 @@
             <input type="hidden" id="programType" value="">
           </div>
           <div class="field">
-            <label for="programUrl">Program URL</label>
+            <label for="programUrl">Program URL or WhatsApp message</label>
             <input
               id="programUrl"
-              type="url"
-              autocomplete="url"
-              placeholder="https://isha.co/IE-Hadapsar"
+              type="text"
+              placeholder="https://isha.co/IE-Hadapsar or paste WhatsApp message"
             />
           </div>
         </section>
@@ -553,21 +552,61 @@
         return escapeHtml(s).replace(/'/g, '&#39;');
       }
 
+      function extractShortLink(text) {
+        if (!text) return '';
+        const match = text.match(/https?:\/\/(?:[a-zA-Z0-9-]+\.)?isha\.co\/[^\s)\]>]+/i);
+        if (match) return match[0];
+        const noProto = text.match(/\b(?:[a-zA-Z0-9-]+\.)?isha\.co\/[^\s)\]>]+/i);
+        return noProto ? `https://${noProto[0]}` : text.trim();
+      }
+
+      function detectProgramTypeFromUrl(url) {
+        const u = (url || '').toLowerCase();
+        if (u.includes('gurupooja') || u.includes('/gp-') || u.includes('-gp-')) return 'guru_pooja';
+        if (u.includes('ie7first')) return 'ie7_first';
+        if (u.includes('ie7')) return 'ie7';
+        if (u.includes('one-week') || u.includes('oneweek')) return 'ie4_one_week';
+        if (u.includes('2nd-post') || u.includes('post-program')) return 'ie4_2nd_post';
+        if (u.includes('ie-') || u.includes('/ie')) return 'ie4';
+        return null;
+      }
+
+      programUrlEl.addEventListener('input', () => {
+        const raw = programUrlEl.value;
+        const link = extractShortLink(raw);
+        if (link && link !== raw) {
+          programUrlEl.value = link;
+        }
+        const detected = detectProgramTypeFromUrl(link || raw);
+        if (detected && !programTypeEl.value) {
+          const opt = types.find(t => t.id === detected);
+          if (opt) selectOption(opt.id, opt.label);
+        }
+      });
+
       generateBtn.addEventListener('click', async () => {
         showError('');
         metaBox.classList.remove('visible');
         metaBox.textContent = '';
 
-        const programType = programTypeEl.value;
-        const url = programUrlEl.value.trim();
+        let programType = programTypeEl.value;
+        const rawUrl = programUrlEl.value.trim();
+        const url = extractShortLink(rawUrl) || rawUrl;
 
-        if (!programType) {
-          showError('Please select a program type.');
+        if (!url) {
+          showError('Please enter the program URL or WhatsApp message.');
           return;
         }
-        if (!url) {
-          showError('Please enter the program URL (Isha short link).');
-          return;
+
+        if (!programType) {
+          const detected = detectProgramTypeFromUrl(url);
+          if (detected) {
+            const opt = types.find(t => t.id === detected);
+            if (opt) selectOption(opt.id, opt.label);
+            programType = detected;
+          } else {
+            programType = 'auto';
+          }
         }
 
         generateBtn.disabled = true;
@@ -585,6 +624,11 @@
           if (!res.ok) {
             showError(data.error || 'Something went wrong.');
             return;
+          }
+
+          if (data.programType && data.programType !== programTypeEl.value) {
+            const opt = types.find(t => t.id === data.programType);
+            if (opt) selectOption(opt.id, opt.label);
           }
 
           outputEl.value = data.message || '';
