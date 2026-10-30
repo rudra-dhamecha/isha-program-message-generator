@@ -12,43 +12,29 @@
     />
     <style>
       :root {
-        --bg: #0a0a0c; /* Slightly deeper, more neutral dark background */
-        --surface: rgba(22, 22, 26, 0.7); /* Improved surface contrast */
-        --border: rgba(255, 255, 255, 0.08); /* More subtle, light-based border */
+        --bg: #0a0a0c;
+        --surface: rgba(22, 22, 26, 0.7);
+        --border: rgba(255, 255, 255, 0.08);
         --border-rgb: 255, 255, 255;
         --text: #e2e2e9;
         --text-rgb: 226, 226, 233;
-        --muted: #8a8a93; /* Slightly more muted for better hierarchy */
-        --accent: #c5a367; /* More sophisticated "champagne" gold */
+        --muted: #8a8a93;
+        --accent: #c5a367;
         --accent-glow: rgba(197, 163, 103, 0.2);
-        --navy-deep: #111827; /* Deeper, more "professional" navy */
+        --navy-deep: #111827;
         --danger: #ff6b6b;
         --danger-rgb: 255, 107, 107;
-        --radius-md: 14px; /* Slightly tighter radius for a more professional feel */
-        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05); /* Layered shadow */
-        --transition-speed: 0.25s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother bezier curve */
+        --radius-md: 14px;
+        --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.05);
+        --transition-speed: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       }
 
-      * {
-        box-sizing: border-box;
-      }
+      * { box-sizing: border-box; }
 
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-      }
-      ::-webkit-scrollbar-track {
-        background: var(--bg);
-      }
-      ::-webkit-scrollbar-thumb {
-        background-color: #27272a;
-        border-radius: 20px;
-        border: 3px solid var(--bg);
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background-color: #3f3f46;
-      }
+      ::-webkit-scrollbar { width: 10px; height: 10px; }
+      ::-webkit-scrollbar-track { background: var(--bg); }
+      ::-webkit-scrollbar-thumb { background-color: #27272a; border-radius: 20px; border: 3px solid var(--bg); }
+      ::-webkit-scrollbar-thumb:hover { background-color: #3f3f46; }
 
       body {
         margin: 0;
@@ -59,13 +45,13 @@
         line-height: 1.6;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
-        background-image: radial-gradient(circle at 50% -20%, #1a1a2e 0%, var(--bg) 100%); /* Subtle depth */
+        background-image: radial-gradient(circle at 50% -20%, #1a1a2e 0%, var(--bg) 100%);
       }
 
       .wrap {
-        max-width: 660px;
+        max-width: 700px;
         margin: 0 auto;
-        padding: 5rem 1.5rem 8rem; /* More generous vertical spacing */
+        padding: 4rem 1.5rem 8rem;
       }
 
       h1, h2 {
@@ -77,7 +63,7 @@
       h1 {
         font-size: 2.5rem;
         font-weight: 800;
-        margin: 0 0 3rem;
+        margin: 0 0 2.5rem;
         text-align: center;
       }
 
@@ -85,7 +71,7 @@
         background: var(--surface);
         border: 1px solid var(--border);
         border-radius: var(--radius-md);
-        padding: 2.5rem;
+        padding: 2rem 2.5rem 2.5rem;
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
         box-shadow: var(--shadow-lg);
@@ -98,13 +84,10 @@
         color: var(--muted);
         margin-bottom: 0.75rem;
         text-transform: uppercase;
-        letter-spacing: 0.1em; /* Increased letter spacing for labels */
+        letter-spacing: 0.1em;
       }
 
-      select,
-      input[type='url'],
-      input[type='text'],
-      textarea {
+      select, input[type='url'], input[type='text'], textarea {
         width: 100%;
         font: inherit;
         color: var(--text);
@@ -116,7 +99,140 @@
         transition: all var(--transition-speed);
       }
 
-      /* Custom Select Styling */
+      select:focus, input:focus, textarea:focus {
+        border-color: rgba(var(--border-rgb), 0.3);
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+      }
+
+      .field { margin-bottom: 1.75rem; }
+      .field:last-of-type { margin-bottom: 0; }
+
+      /* ── Input section ── */
+      .input-section {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      /* WhatsApp message textarea */
+      #messageInput {
+        min-height: 100px;
+        resize: vertical;
+        font-size: 0.9rem;
+        line-height: 1.65;
+        white-space: pre-wrap;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        color: var(--text);
+        padding: 1rem;
+        transition: all var(--transition-speed);
+      }
+      #messageInput::placeholder { color: var(--muted); opacity: 0.7; }
+      #messageInput:focus {
+        border-color: rgba(var(--border-rgb), 0.3);
+        background: rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+        outline: none;
+      }
+
+      /* Link pills bar */
+      #linkPillsBar {
+        display: none;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.75rem;
+      }
+      #linkPillsBar.visible { display: flex; }
+
+      .link-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.3rem 0.75rem;
+        background: rgba(197, 163, 103, 0.1);
+        border: 1px solid rgba(197, 163, 103, 0.25);
+        border-radius: 999px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--accent);
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        max-width: 280px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .link-pill:hover {
+        background: rgba(197, 163, 103, 0.18);
+        border-color: rgba(197, 163, 103, 0.45);
+        color: #d4b47a;
+      }
+      .link-pill svg {
+        flex-shrink: 0;
+        opacity: 0.7;
+      }
+
+      /* Generate bar */
+      .generate-bar {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 1.25rem;
+      }
+
+      /* ── Program Cards ── */
+      #programCards {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .program-card {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        transition: border-color 0.2s ease;
+      }
+
+      .program-card.loading {
+        border-color: rgba(197, 163, 103, 0.2);
+      }
+
+      .program-card-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        background: rgba(0,0,0,0.15);
+        border-bottom: 1px solid var(--border);
+        flex-wrap: wrap;
+      }
+
+      .program-card-url {
+        font-size: 0.78rem;
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: none;
+        opacity: 0.85;
+        flex-shrink: 0;
+        max-width: 200px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      .program-card-url:hover { opacity: 1; text-decoration: underline; }
+
+      .card-type-select {
+        flex: 1;
+        min-width: 160px;
+      }
+
+      /* Custom select for card */
       .custom-select {
         position: relative;
         width: 100%;
@@ -125,27 +241,29 @@
 
       .select-trigger {
         width: 100%;
-        padding: 0.85rem 1rem;
+        padding: 0.6rem 0.9rem;
         background: rgba(0, 0, 0, 0.2);
         border: 1px solid var(--border);
-        border-radius: 10px;
+        border-radius: 8px;
         color: var(--text);
         cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: space-between;
         transition: all var(--transition-speed);
+        font-size: 0.85rem;
       }
 
       .select-trigger:after {
         content: '';
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-right: 2px solid var(--muted);
         border-bottom: 2px solid var(--muted);
         transform: rotate(45deg) translateY(-2px);
         transition: transform var(--transition-speed);
-        margin-right: 4px;
+        margin-right: 3px;
+        flex-shrink: 0;
       }
 
       .custom-select.open .select-trigger {
@@ -160,22 +278,22 @@
 
       .select-options {
         position: absolute;
-        top: calc(100% + 8px);
+        top: calc(100% + 6px);
         left: 0;
         right: 0;
         background: #16161a;
         border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 0.5rem;
-        z-index: 50;
+        border-radius: 10px;
+        padding: 0.4rem;
+        z-index: 100;
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         transition: all var(--transition-speed);
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        max-height: 400px;
+        max-height: 320px;
         overflow-y: auto;
       }
 
@@ -186,11 +304,11 @@
       }
 
       .select-option {
-        padding: 0.75rem 1rem;
-        border-radius: 8px;
+        padding: 0.6rem 0.85rem;
+        border-radius: 7px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 0.95rem;
+        transition: all 0.15s ease;
+        font-size: 0.88rem;
         color: var(--muted);
       }
 
@@ -200,151 +318,245 @@
       }
 
       .select-option.selected {
-        background: rgba(var(--accent-glow), 0.1);
+        background: rgba(197, 163, 103, 0.1);
         color: var(--accent);
         font-weight: 600;
       }
 
-      select:focus,
-      input:focus,
-      textarea:focus {
-        border-color: rgba(var(--border-rgb), 0.3);
-        background: rgba(0, 0, 0, 0.4);
-        box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.03);
+      .card-gen-btn {
+        font: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+        border-radius: 7px;
+        padding: 0.55rem 1.1rem;
+        background: var(--accent);
+        color: #000;
+        transition: all var(--transition-speed);
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .card-gen-btn:hover:not(:disabled) {
+        background: #d4b47a;
+        transform: translateY(-1px);
+      }
+      .card-gen-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
       }
 
-      .field {
-        margin-bottom: 1.75rem;
+      /* Card status badge */
+      .card-status {
+        font-size: 0.73rem;
+        font-weight: 600;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        flex-shrink: 0;
+      }
+      .card-status.loading {
+        background: rgba(197, 163, 103, 0.1);
+        color: var(--accent);
+      }
+      .card-status.done {
+        background: rgba(74, 222, 128, 0.1);
+        color: #4ade80;
+      }
+      .card-status.error {
+        background: rgba(255, 107, 107, 0.1);
+        color: var(--danger);
       }
 
-      .field:last-of-type {
-        margin-bottom: 0;
+      .program-card-body {
+        padding: 1.25rem;
       }
 
-      .section-group {
-        margin-bottom: 3rem;
+      /* Skeleton loading */
+      .skeleton-lines {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 0.5rem 0;
+      }
+      .skeleton-line {
+        height: 14px;
+        border-radius: 4px;
+        background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 100%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+      }
+      .skeleton-line.short { width: 55%; }
+      .skeleton-line.medium { width: 75%; }
+      .skeleton-line.long { width: 95%; }
+
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
       }
 
-      .section-group:last-of-type {
-        margin-bottom: 0;
+      .card-error-msg {
+        font-size: 0.87rem;
+        color: var(--danger);
+        display: flex;
+        align-items: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 0;
+      }
+      .card-error-msg::before { content: '⚠'; flex-shrink: 0; }
+
+      .card-output {
+        width: 100%;
+        font: inherit;
+        font-size: 0.875rem;
+        line-height: 1.7;
+        white-space: pre-wrap;
+        resize: vertical;
+        min-height: 160px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        color: var(--text);
+        padding: 1rem 1.1rem;
+        outline: none;
+      }
+      .card-output:focus {
+        border-color: rgba(var(--border-rgb), 0.25);
       }
 
-      .section-group h2 {
-        font-size: 1.15rem;
-        font-weight: 700;
-        margin: 0 0 1.5rem;
+      .card-footer {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        justify-content: space-between;
+        margin-top: 0.85rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
       }
 
-      .section-group h2::before {
+      .card-meta {
+        font-size: 0.78rem;
+        color: var(--muted);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 1rem;
+      }
+      .card-meta span { display: flex; align-items: center; gap: 0.25rem; }
+      .card-meta strong { color: var(--accent); }
+
+      .card-copy-btn {
+        font: inherit;
+        font-size: 0.8rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        border-radius: 7px;
+        padding: 0.4rem 0.9rem;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        transition: all var(--transition-speed);
+        white-space: nowrap;
+      }
+      .card-copy-btn:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255,255,255,0.2);
+      }
+      .card-copy-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+      /* Template Preview (global) */
+      .template-preview-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .section-label {
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .section-label::before {
         content: '';
         display: block;
-        width: 4px;
-        height: 1.15rem;
+        width: 3px;
+        height: 0.9rem;
         background: var(--accent);
         border-radius: 2px;
       }
 
-      textarea.preview,
-      textarea.output {
-        min-height: 180px;
+      textarea.preview {
+        min-height: 160px;
         resize: vertical;
-        font-size: 0.9rem;
+        font-size: 0.875rem;
         line-height: 1.7;
         white-space: pre-wrap;
         background: rgba(0, 0, 0, 0.3);
         border: 1px solid var(--border);
-        padding: 1.25rem;
+        padding: 1.1rem;
         border-radius: 10px;
         color: var(--text);
+        width: 100%;
+        outline: none;
       }
 
-      .actions {
+      /* Global actions */
+      .global-actions {
         display: flex;
-        gap: 1rem;
+        gap: 0.75rem;
+        align-items: center;
         flex-wrap: wrap;
-        margin-top: 2rem;
-        padding: 1.5rem 0;
-        border-top: 1px solid var(--border);
-        border-bottom: 1px solid var(--border);
       }
 
-      button {
+      button.primary {
         font: inherit;
-        font-weight: 600;
+        font-weight: 700;
         cursor: pointer;
         border: none;
         border-radius: 8px;
         padding: 0.85rem 1.75rem;
+        background: var(--accent);
+        color: #000;
+        box-shadow: 0 4px 12px rgba(197, 163, 103, 0.2);
         transition: all var(--transition-speed);
         display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
       }
-
-      button.primary {
-        background: var(--accent);
-        color: #000;
-        box-shadow: 0 4px 12px rgba(197, 163, 103, 0.2);
-      }
-
       button.primary:hover:not(:disabled) {
         background: #d4b47a;
         transform: translateY(-1px);
         box-shadow: 0 6px 16px rgba(197, 163, 103, 0.3);
       }
+      button.primary:disabled { opacity: 0.3; cursor: not-allowed; filter: grayscale(1); }
 
       button.secondary {
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.85rem 1.5rem;
         background: rgba(255, 255, 255, 0.05);
         color: var(--text);
-        border: 1px solid var(--border);
+        transition: all var(--transition-speed);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
       }
-
       button.secondary:hover:not(:disabled) {
         background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
+        border-color: rgba(255,255,255,0.2);
         transform: translateY(-1px);
       }
+      button.secondary:disabled { opacity: 0.3; cursor: not-allowed; }
 
-      button:disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-        filter: grayscale(1);
-      }
-
-      .output-section {
-        margin-top: 2.5rem;
-      }
-
-      .meta {
-        font-size: 0.85rem;
-        color: var(--muted);
-        margin-top: 1.25rem;
-        padding: 1.25rem;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        display: none;
-        line-height: 1.6;
-      }
-
-      .meta.visible {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 0.6rem 1.25rem;
-      }
-
-      .meta strong {
-        color: var(--accent);
-        font-weight: 700;
-        font-family: 'Plus Jakarta Sans', sans-serif;
-      }
-
-      .error {
-        margin-top: 1.5rem;
+      .global-error {
+        margin-top: 1rem;
         padding: 1rem 1.25rem;
         border-radius: 8px;
         background: rgba(255, 107, 107, 0.1);
@@ -356,16 +568,21 @@
         align-items: center;
         gap: 0.6rem;
       }
+      .global-error::before { content: '⚠'; font-size: 1.1rem; }
+      .global-error.visible { display: flex; }
 
-      .error::before {
-        content: '⚠';
-        font-size: 1.1rem;
+      /* Empty state */
+      .empty-state {
+        text-align: center;
+        padding: 3rem 1rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+        display: none;
       }
+      .empty-state.visible { display: block; }
+      .empty-state-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.5; }
 
-      .error.visible {
-        display: flex;
-      }
-
+      /* Toast */
       .toast {
         position: fixed;
         bottom: 2rem;
@@ -383,164 +600,128 @@
         z-index: 100;
         box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       }
+      .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-      .toast.show {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
+      /* Divider between multi-cards */
+      .cards-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
       }
+      .cards-header h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-family: 'DM Sans', sans-serif;
+      }
+      .cards-header h2::before {
+        content: '';
+        display: block;
+        width: 3px;
+        height: 0.85rem;
+        background: var(--accent);
+        border-radius: 2px;
+      }
+
+      .copy-all-btn {
+        font: inherit;
+        font-size: 0.78rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 1px solid rgba(197, 163, 103, 0.25);
+        border-radius: 6px;
+        padding: 0.35rem 0.85rem;
+        background: rgba(197, 163, 103, 0.08);
+        color: var(--accent);
+        transition: all 0.2s ease;
+        display: none;
+      }
+      .copy-all-btn:hover { background: rgba(197, 163, 103, 0.15); }
+      .copy-all-btn.visible { display: inline-flex; align-items: center; gap: 0.35rem; }
     </style>
   </head>
   <body>
     <div class="wrap">
       <h1>Program Message Generator</h1>
       <div class="card">
-        <section class="section-group">
-          <h2>Program Selection</h2>
-          <div class="field">
-            <label for="programType">Program type</label>
-            <div class="custom-select" id="programTypeWrapper">
-              <div class="select-trigger" id="selectTrigger">
-                <span id="selectValue">Select Program Type</span>
-              </div>
-              <div class="select-options" id="selectOptions">
-                <!-- Options will be injected here -->
-              </div>
-            </div>
-            <input type="hidden" id="programType" value="">
-          </div>
-          <div class="field">
-            <label for="programUrl">Program URL or WhatsApp message</label>
-            <input
-              id="programUrl"
-              type="text"
-              placeholder="https://isha.co/IE-Hadapsar or paste WhatsApp message"
-            />
-          </div>
-        </section>
 
-        <section class="section-group">
-          <h2>Template Preview</h2>
+        <!-- ── INPUT SECTION (always at top) ── -->
+        <div class="input-section">
           <div class="field">
-            <label for="templatePreview">Template preview</label>
+            <label for="messageInput">Program URL or WhatsApp message</label>
             <textarea
-              id="templatePreview"
-              class="preview"
-              readonly
+              id="messageInput"
+              placeholder="Paste WhatsApp message or isha.co link(s) here…&#10;&#10;e.g.&#10;https://Isha.co/IE-Ulhasnagar&#10;https://Isha.co/IE-Amravati"
               spellcheck="false"
-              aria-label="Template preview with placeholders"
             ></textarea>
           </div>
-        </section>
 
-        <div class="actions">
-          <button type="button" class="primary" id="generateBtn">
-            Generate message
-          </button>
-          <button type="button" class="secondary" id="copyBtn" disabled>
-            Copy message
-          </button>
+          <!-- Link pills: clickable extracted links -->
+          <div id="linkPillsBar"></div>
+
+          <!-- Generate bar -->
+          <div class="generate-bar">
+            <button type="button" class="primary" id="generateBtn">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              Generate
+            </button>
+            <button type="button" class="secondary" id="clearBtn">Clear</button>
+          </div>
+
+          <div class="global-error" id="globalError"></div>
         </div>
 
-        <div class="error" id="errorBox" role="alert"></div>
+        <!-- ── PROGRAM CARDS SECTION ── -->
+        <div id="cardsSection" style="display:none;">
+          <div class="cards-header">
+            <h2 id="cardsHeading">Generated messages</h2>
+            <button class="copy-all-btn" id="copyAllBtn" title="Copy all messages separated by a divider">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy all
+            </button>
+          </div>
+          <div id="programCards"></div>
+        </div>
 
-        <section class="section-group output-section">
-          <h2>Generated message</h2>
-          <textarea
-            id="output"
-            class="output"
-            readonly
-            spellcheck="false"
-            placeholder="Generated text will appear here…"
-          ></textarea>
-          <div class="meta" id="metaBox"></div>
-        </section>
+        <!-- Empty state -->
+        <div class="empty-state" id="emptyState">
+          <div class="empty-state-icon">✉️</div>
+          Paste a WhatsApp message above and hit <strong>Generate</strong>
+        </div>
+
       </div>
     </div>
 
-    <div class="toast" id="toast" aria-live="polite">Copied to clipboard</div>
+    <div class="toast" id="toast" aria-live="polite">Copied!</div>
 
     <script>
-      const programTypeEl = document.getElementById('programType');
-      const programTypeWrapper = document.getElementById('programTypeWrapper');
-      const selectTrigger = document.getElementById('selectTrigger');
-      const selectValue = document.getElementById('selectValue');
-      const selectOptions = document.getElementById('selectOptions');
-      const templatePreviewEl = document.getElementById('templatePreview');
-      const programUrlEl = document.getElementById('programUrl');
-      const generateBtn = document.getElementById('generateBtn');
-      const copyBtn = document.getElementById('copyBtn');
-      const outputEl = document.getElementById('output');
-      const errorBox = document.getElementById('errorBox');
-      const metaBox = document.getElementById('metaBox');
-      const toast = document.getElementById('toast');
-
+      // ── State ──
       /** @type {{ id: string, label: string, preview: string }[]} */
-      let types = [];
+      let programTypes = [];
+      // Map<url, { programType, message, extracted }> — cache per link
+      const resultCache = new Map();
 
-      function showError(text) {
-        if (!text) {
-          errorBox.textContent = '';
-          errorBox.classList.remove('visible');
-          return;
-        }
-        errorBox.textContent = text;
-        errorBox.classList.add('visible');
-      }
+      // ── DOM refs ──
+      const messageInput  = document.getElementById('messageInput');
+      const linkPillsBar  = document.getElementById('linkPillsBar');
+      const generateBtn   = document.getElementById('generateBtn');
+      const clearBtn      = document.getElementById('clearBtn');
+      const globalError   = document.getElementById('globalError');
+      const cardsSection  = document.getElementById('cardsSection');
+      const cardsHeading  = document.getElementById('cardsHeading');
+      const programCards  = document.getElementById('programCards');
+      const emptyState    = document.getElementById('emptyState');
+      const copyAllBtn    = document.getElementById('copyAllBtn');
+      const toast         = document.getElementById('toast');
 
-      function showToast() {
-        toast.classList.add('show');
-        clearTimeout(showToast._t);
-        showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
-      }
-
-      function syncPreview() {
-        const id = programTypeEl.value;
-        const t = types.find((x) => x.id === id);
-        templatePreviewEl.value = t ? t.preview : '';
-      }
-
-      // Dropdown Toggle
-      selectTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        programTypeWrapper.classList.toggle('open');
-      });
-
-      // Close dropdown when clicking outside
-      document.addEventListener('click', () => {
-        programTypeWrapper.classList.remove('open');
-      });
-
-      function selectOption(id, label) {
-        programTypeEl.value = id;
-        selectValue.textContent = label;
-        programTypeWrapper.classList.remove('open');
-        
-        // Update selection UI
-        document.querySelectorAll('.select-option').forEach(opt => {
-          opt.classList.toggle('selected', opt.dataset.id === id);
-        });
-
-        syncPreview();
-      }
-
-      async function loadTypes() {
-        const res = await fetch('/api/program-types');
-        if (!res.ok) throw new Error('Could not load program types');
-        const data = await res.json();
-        types = data.types || [];
-        
-        selectOptions.innerHTML = 
-          `<div class="select-option" data-id="" onclick="selectOption('', 'Select Program Type')">Select Program Type</div>` +
-          types
-            .map(
-              (t) =>
-                `<div class="select-option" data-id="${escapeAttr(t.id)}" onclick="selectOption('${escapeAttr(t.id)}', '${escapeHtml(t.label)}')">${escapeHtml(t.label)}</div>`
-            )
-            .join('');
-        
-        syncPreview();
-      }
-
+      // ── Utilities ──
       function escapeHtml(s) {
         return String(s)
           .replace(/&/g, '&amp;')
@@ -548,71 +729,281 @@
           .replace(/>/g, '&gt;')
           .replace(/"/g, '&quot;');
       }
+      function escapeAttr(s) { return escapeHtml(s).replace(/'/g, '&#39;'); }
 
-      function escapeAttr(s) {
-        return escapeHtml(s).replace(/'/g, '&#39;');
+      function showToast(msg = 'Copied!') {
+        toast.textContent = msg;
+        toast.classList.add('show');
+        clearTimeout(showToast._t);
+        showToast._t = setTimeout(() => toast.classList.remove('show'), 2200);
       }
 
-      function extractShortLink(text) {
-        if (!text) return '';
-        const match = text.match(/https?:\/\/(?:[a-zA-Z0-9-]+\.)?isha\.co\/[^\s)\]>]+/i);
-        if (match) return match[0];
-        const noProto = text.match(/\b(?:[a-zA-Z0-9-]+\.)?isha\.co\/[^\s)\]>]+/i);
-        return noProto ? `https://${noProto[0]}` : text.trim();
+      function showGlobalError(text) {
+        if (!text) {
+          globalError.textContent = '';
+          globalError.classList.remove('visible');
+          return;
+        }
+        globalError.textContent = text;
+        globalError.classList.add('visible');
       }
 
-      function detectProgramTypeFromUrl(url) {
+      /** Extract ALL isha.co links from text */
+      function extractAllShortLinks(text) {
+        if (!text) return [];
+        const re = /https?:\/\/(?:[a-zA-Z0-9-]+\.)?isha\.co\/[^\s)\]>]+/gi;
+        const matches = [...text.matchAll(re)].map(m => m[0]);
+        if (matches.length) return [...new Set(matches)];
+        // Also try without protocol
+        const re2 = /\b(?:[a-zA-Z0-9-]+\.)?isha\.co\/[^\s)\]>]+/gi;
+        const m2 = [...text.matchAll(re2)].map(m => {
+          const v = m[0];
+          return v.startsWith('http') ? v : `https://${v}`;
+        });
+        return [...new Set(m2)];
+      }
+
+      /** Detect program type purely from URL path (client-side heuristic) */
+      function detectTypeFromUrl(url) {
         const u = (url || '').toLowerCase();
-        if (u.includes('gurupooja') || u.includes('/gp-') || u.includes('-gp-')) return 'guru_pooja';
+        // GuruPooja variants
+        if (u.includes('gurupooja') || u.includes('/gp-') || u.includes('-gp-')) {
+          if (u.includes('one-week') || u.includes('oneweek') || u.includes('1-week')) return 'guru_pooja_one_week';
+          return 'guru_pooja';
+        }
         if (u.includes('ie7first')) return 'ie7_first';
         if (u.includes('ie7')) return 'ie7';
-        if (u.includes('one-week') || u.includes('oneweek')) return 'ie4_one_week';
+        if (u.includes('one-week') || u.includes('oneweek') || u.includes('1-week')) return 'ie4_one_week';
         if (u.includes('2nd-post') || u.includes('post-program')) return 'ie4_2nd_post';
         if (u.includes('ie-') || u.includes('/ie')) return 'ie4';
         return null;
       }
 
-      programUrlEl.addEventListener('input', () => {
-        const raw = programUrlEl.value;
-        const link = extractShortLink(raw);
-        if (link && link !== raw) {
-          programUrlEl.value = link;
-        }
-        const detected = detectProgramTypeFromUrl(link || raw);
-        if (detected && !programTypeEl.value) {
-          const opt = types.find(t => t.id === detected);
-          if (opt) selectOption(opt.id, opt.label);
-        }
-      });
+      /** Shorten URL for display */
+      function shortenUrl(url) {
+        try {
+          const u = new URL(url);
+          const p = u.pathname.replace(/^\//, '');
+          return (u.hostname + '/' + p).replace(/^(?:www\.)?/i, '');
+        } catch { return url; }
+      }
 
-      generateBtn.addEventListener('click', async () => {
-        showError('');
-        metaBox.classList.remove('visible');
-        metaBox.textContent = '';
-
-        let programType = programTypeEl.value;
-        const rawUrl = programUrlEl.value.trim();
-        const url = extractShortLink(rawUrl) || rawUrl;
-
-        if (!url) {
-          showError('Please enter the program URL or WhatsApp message.');
+      // ── Link Pills ──
+      function renderLinkPills(links) {
+        if (!links.length) {
+          linkPillsBar.innerHTML = '';
+          linkPillsBar.classList.remove('visible');
           return;
         }
+        linkPillsBar.innerHTML = links.map(link =>
+          `<a class="link-pill" href="${escapeAttr(link)}" target="_blank" rel="noopener noreferrer">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            ${escapeHtml(shortenUrl(link))}
+          </a>`
+        ).join('');
+        linkPillsBar.classList.add('visible');
+      }
 
-        if (!programType) {
-          const detected = detectProgramTypeFromUrl(url);
-          if (detected) {
-            const opt = types.find(t => t.id === detected);
-            if (opt) selectOption(opt.id, opt.label);
-            programType = detected;
-          } else {
-            programType = 'auto';
-          }
+      // ── Input reactive: extract links & show pills ──
+      messageInput.addEventListener('input', () => {
+        const links = extractAllShortLinks(messageInput.value);
+        renderLinkPills(links);
+        showGlobalError('');
+      });
+
+      // ── Custom Select Factory ──
+      function buildSelect(containerId, onChange) {
+        // Returns { getValue, setValue(id), render(types) }
+        let currentId = '';
+
+        const wrapper = document.getElementById(containerId);
+        const trigger = wrapper.querySelector('.select-trigger');
+        const valueEl = wrapper.querySelector('.select-trigger-value');
+        const options = wrapper.querySelector('.select-options');
+
+        trigger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          // Close others
+          document.querySelectorAll('.custom-select.open').forEach(el => {
+            if (el !== wrapper) el.classList.remove('open');
+          });
+          wrapper.classList.toggle('open');
+        });
+
+        document.addEventListener('click', () => wrapper.classList.remove('open'));
+
+        function renderOptions() {
+          options.innerHTML =
+            `<div class="select-option" data-id="">Select type…</div>` +
+            programTypes.map(t =>
+              `<div class="select-option${t.id === currentId ? ' selected' : ''}" data-id="${escapeAttr(t.id)}">${escapeHtml(t.label)}</div>`
+            ).join('');
+
+          options.querySelectorAll('.select-option').forEach(opt => {
+            opt.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const id = opt.dataset.id;
+              setValue(id, false);
+              onChange(id);
+            });
+          });
         }
 
-        generateBtn.disabled = true;
-        copyBtn.disabled = true;
-        outputEl.value = '';
+        function setValue(id, silent = true) {
+          currentId = id;
+          const found = programTypes.find(t => t.id === id);
+          valueEl.textContent = found ? found.label : 'Select type…';
+          wrapper.classList.remove('open');
+          // Update selected classes
+          options.querySelectorAll('.select-option').forEach(opt => {
+            opt.classList.toggle('selected', opt.dataset.id === id);
+          });
+          if (!silent) onChange(id);
+        }
+
+        function getValue() { return currentId; }
+
+        return { getValue, setValue, renderOptions };
+      }
+
+      // ── Program Card ──
+      let cardCounter = 0;
+
+      function createProgramCard(url) {
+        const id = ++cardCounter;
+        const urlShort = shortenUrl(url);
+        const guessedType = detectTypeFromUrl(url) || 'ie4';
+
+        const card = document.createElement('div');
+        card.className = 'program-card';
+        card.dataset.url = url;
+        card.dataset.cardId = id;
+
+        card.innerHTML = `
+          <div class="program-card-header">
+            <a class="program-card-url" href="${escapeAttr(url)}" target="_blank" rel="noopener noreferrer" title="${escapeAttr(url)}">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              ${escapeHtml(urlShort)}
+            </a>
+            <div class="card-type-select">
+              <div class="custom-select" id="cs-${id}">
+                <div class="select-trigger">
+                  <span class="select-trigger-value">Select type…</span>
+                </div>
+                <div class="select-options"></div>
+              </div>
+            </div>
+            <span class="card-status" id="cs-status-${id}"></span>
+            <button class="card-gen-btn" id="cs-genbtn-${id}">Regenerate</button>
+          </div>
+          <div class="program-card-body" id="cs-body-${id}">
+            <div class="skeleton-lines">
+              <div class="skeleton-line long"></div>
+              <div class="skeleton-line medium"></div>
+              <div class="skeleton-line long"></div>
+              <div class="skeleton-line short"></div>
+              <div class="skeleton-line medium"></div>
+              <div class="skeleton-line long"></div>
+            </div>
+          </div>
+        `;
+
+        programCards.appendChild(card);
+
+        // Wire up the custom select
+        const sel = buildSelect(`cs-${id}`, (newType) => {
+          // re-render preview in template area if only one card
+          // just track changes; user can hit "Regenerate"
+        });
+        sel.renderOptions();
+        sel.setValue(guessedType);
+
+        const genBtn = document.getElementById(`cs-genbtn-${id}`);
+        genBtn.addEventListener('click', () => {
+          generateForCard(card, url, sel);
+        });
+
+        return { card, sel };
+      }
+
+      function setCardStatus(card, status, text) {
+        const id = card.dataset.cardId;
+        const statusEl = document.getElementById(`cs-status-${id}`);
+        statusEl.className = `card-status ${status}`;
+        statusEl.textContent = text;
+      }
+
+      function setCardLoading(card) {
+        setCardStatus(card, 'loading', 'Loading…');
+        card.classList.add('loading');
+        const body = document.getElementById(`cs-body-${card.dataset.cardId}`);
+        body.innerHTML = `
+          <div class="skeleton-lines">
+            <div class="skeleton-line long"></div>
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line long"></div>
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line medium"></div>
+            <div class="skeleton-line long"></div>
+          </div>
+        `;
+      }
+
+      function setCardError(card, msg) {
+        setCardStatus(card, 'error', 'Error');
+        card.classList.remove('loading');
+        const body = document.getElementById(`cs-body-${card.dataset.cardId}`);
+        body.innerHTML = `<div class="card-error-msg">${escapeHtml(msg)}</div>`;
+      }
+
+      function setCardResult(card, data, sel) {
+        card.classList.remove('loading');
+        const id = card.dataset.cardId;
+
+        // Update type from server response if different
+        if (data.programType && data.programType !== sel.getValue()) {
+          sel.setValue(data.programType);
+        }
+        setCardStatus(card, 'done', '✓ Done');
+
+        const body = document.getElementById(`cs-body-${id}`);
+        const ex = data.extracted || {};
+
+        const metaParts = [
+          ex.title ? `<span><strong>${escapeHtml(ex.title)}</strong></span>` : '',
+          ex.city ? `<span>📍 ${escapeHtml(ex.center || ex.city)}</span>` : '',
+          ex.language ? `<span>🗣 ${escapeHtml(ex.language)}</span>` : '',
+          ex.date ? `<span>📅 ${escapeHtml(ex.date)}</span>` : '',
+        ].filter(Boolean).join('');
+
+        body.innerHTML = `
+          <textarea class="card-output" id="cs-out-${id}" readonly spellcheck="false">${escapeHtml(data.message || '')}</textarea>
+          <div class="card-footer">
+            <div class="card-meta">${metaParts}</div>
+            <button class="card-copy-btn" id="cs-copy-${id}">Copy</button>
+          </div>
+        `;
+
+        document.getElementById(`cs-copy-${id}`).addEventListener('click', async () => {
+          const text = document.getElementById(`cs-out-${id}`).value;
+          if (!text) return;
+          try {
+            await navigator.clipboard.writeText(text);
+            showToast('Copied!');
+          } catch {
+            document.getElementById(`cs-out-${id}`).select();
+            document.execCommand('copy');
+            showToast('Copied!');
+          }
+        });
+      }
+
+      async function generateForCard(card, url, sel) {
+        const programType = sel.getValue() || 'auto';
+        setCardLoading(card);
+
+        const genBtn = document.getElementById(`cs-genbtn-${card.dataset.cardId}`);
+        genBtn.disabled = true;
 
         try {
           const res = await fetch('/api/generate', {
@@ -621,61 +1012,117 @@
             body: JSON.stringify({ programType, url }),
           });
           const data = await res.json();
-
           if (!res.ok) {
-            showError(data.error || 'Something went wrong.');
+            setCardError(card, data.error || 'Something went wrong.');
             return;
           }
-
-          if (data.programType && data.programType !== programTypeEl.value) {
-            const opt = types.find(t => t.id === data.programType);
-            if (opt) selectOption(opt.id, opt.label);
-          }
-
-          outputEl.value = data.message || '';
-          copyBtn.disabled = !outputEl.value;
-
-          const ex = data.extracted;
-          if (ex) {
-            metaBox.innerHTML = [
-              ex.title ? `<div><strong>Title</strong> ${escapeHtml(ex.title)}</div>` : '',
-              `<div><strong>City</strong> ${escapeHtml(ex.city || '—')}</div>`,
-              ex.center && ex.center !== ex.city
-                ? `<div><strong>Center</strong> ${escapeHtml(ex.center)}</div>`
-                : '',
-              `<div><strong>Language</strong> ${escapeHtml(ex.language || '—')}</div>`,
-              `<div><strong>Date</strong> ${escapeHtml(ex.date || '—')}</div>`,
-              ex.timing && programType === 'guru_pooja'
-                ? `<div><strong>Timing</strong> ${escapeHtml(ex.timing)}</div>`
-                : '',
-              `<div><strong>Phones</strong> ${escapeHtml((ex.phones || []).join(' / ') || '—')}</div>`,
-            ].join('');
-            metaBox.classList.add('visible');
-          }
+          // Cache result
+          resultCache.set(url, data);
+          setCardResult(card, data, sel);
+          updateCopyAllBtn();
         } catch (e) {
-          showError(e.message || 'Network error.');
+          setCardError(card, e.message || 'Network error.');
         } finally {
-          generateBtn.disabled = false;
+          genBtn.disabled = false;
         }
+      }
+
+      // ── Main generate ──
+      generateBtn.addEventListener('click', async () => {
+        showGlobalError('');
+        const rawText = messageInput.value.trim();
+        if (!rawText) {
+          showGlobalError('Please paste a WhatsApp message or isha.co link.');
+          return;
+        }
+
+        const links = extractAllShortLinks(rawText);
+        if (!links.length) {
+          showGlobalError('No isha.co links found in the message.');
+          return;
+        }
+
+        renderLinkPills(links);
+
+        // Clear cards
+        programCards.innerHTML = '';
+        resultCache.clear();
+        copyAllBtn.classList.remove('visible');
+        cardsSection.style.display = 'block';
+        emptyState.classList.remove('visible');
+
+        if (links.length === 1) {
+          cardsHeading.textContent = 'Generated message';
+        } else {
+          cardsHeading.textContent = `Generated messages (${links.length})`;
+        }
+
+        generateBtn.disabled = true;
+
+        // Create all cards first
+        const cardSels = links.map(url => createProgramCard(url));
+
+        // Then fetch all in parallel
+        await Promise.allSettled(
+          cardSels.map(({ card, sel }, i) => generateForCard(card, links[i], sel))
+        );
+
+        generateBtn.disabled = false;
+        updateCopyAllBtn();
       });
 
-      copyBtn.addEventListener('click', async () => {
-        const text = outputEl.value;
-        if (!text) return;
+      // ── Clear ──
+      clearBtn.addEventListener('click', () => {
+        messageInput.value = '';
+        linkPillsBar.innerHTML = '';
+        linkPillsBar.classList.remove('visible');
+        programCards.innerHTML = '';
+        cardsSection.style.display = 'none';
+        emptyState.classList.add('visible');
+        copyAllBtn.classList.remove('visible');
+        resultCache.clear();
+        showGlobalError('');
+      });
+
+      // ── Copy All ──
+      function updateCopyAllBtn() {
+        // Show copy all only if multiple cards with results
+        const outputs = programCards.querySelectorAll('.card-output');
+        if (outputs.length > 1) {
+          copyAllBtn.classList.add('visible');
+        } else {
+          copyAllBtn.classList.remove('visible');
+        }
+      }
+
+      copyAllBtn.addEventListener('click', async () => {
+        const outputs = [...programCards.querySelectorAll('.card-output')];
+        if (!outputs.length) return;
+        const combined = outputs
+          .map(t => t.value)
+          .filter(Boolean)
+          .join('\n\n──────────────────\n\n');
         try {
-          await navigator.clipboard.writeText(text);
-          showToast();
+          await navigator.clipboard.writeText(combined);
+          showToast(`Copied ${outputs.length} messages!`);
         } catch {
-          outputEl.select();
-          document.execCommand('copy');
-          showToast();
+          showToast('Copy failed — please copy manually.');
         }
       });
 
-      loadTypes().catch((e) => {
-        showError(e.message || 'Failed to load.');
-        templatePreviewEl.value =
-          'Could not load templates. Is the server running?';
+      // ── Load program types ──
+      async function loadTypes() {
+        const res = await fetch('/api/program-types');
+        if (!res.ok) throw new Error('Could not load program types');
+        const data = await res.json();
+        programTypes = data.types || [];
+      }
+
+      // ── Init ──
+      emptyState.classList.add('visible');
+
+      loadTypes().catch(e => {
+        showGlobalError(e.message || 'Failed to load program types. Is the server running?');
       });
     </script>
   </body>
